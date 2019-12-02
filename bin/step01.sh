@@ -5,6 +5,8 @@
 #     Upgrade OS, install required services and run it, clone application
 #     sources.
 ## ************************************************************************
+# root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
 set -e
 

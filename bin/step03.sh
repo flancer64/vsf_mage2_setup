@@ -2,6 +2,8 @@
 ## ************************************************************************
 #     Script to configure and build 'vsf' * 'vsf-api' apps.
 ## ************************************************************************
+# root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
 set -e
 

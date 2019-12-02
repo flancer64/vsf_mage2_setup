@@ -2,21 +2,16 @@
 ## ************************************************************************
 #     Script to configure and build 'mage2vuestorefront' app.
 ## ************************************************************************
+# shellcheck disable=SC1090
+# root directory (set before or relative to the current shell script)
+DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
 set -e
 
 ## ========================================================================
 # Configuration variables
 ## ========================================================================
-# address of REST API of source Magento instance
-URL_MAGE="http://mage2.host.com"
-URL_MAGE_REST="${URL_MAGE}/rest"
-INDEX_NAME="vue_storefront_catalog"
-# Magento integration options
-MAGE_CONSUMER_KEY="..."
-MAGE_CONSUMER_SECRET="..."
-MAGE_ACCESS_TOKEN="..."
-MAGE_ACCESS_TOKEN_SECRET="..."
+. "${DIR_ROOT}/cfg.local.sh" # this script is child of other script
 
 ## ========================================================================
 # Install `mage2vsf` app.
