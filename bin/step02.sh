@@ -11,7 +11,7 @@ set -e
 ## ========================================================================
 # Configuration variables
 ## ========================================================================
-. "${DIR_ROOT}/cfg.local.sh" # this script is child of other script
+. "${DIR_ROOT}/cfg.local.sh"
 
 ## ========================================================================
 # Install `mage2vsf` app.
@@ -49,3 +49,12 @@ node --harmony cli.js products --removeNonExistent=true #--partitions=2
 #cd ~/vue-storefront-api
 #npm run db new -- --indexName=${INDEX_NAME}
 EOM
+
+# set 'executable' permissions to the script.
+chmod ug+x ~/mage2vuestorefront/src/run.sh
+
+## ========================================================================
+# Build 'mage2vuestorefront'.
+## ========================================================================
+cd ~/mage2vuestorefront
+yarn install

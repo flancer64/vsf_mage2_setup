@@ -2,6 +2,7 @@
 ## ************************************************************************
 #     Script to configure and build 'vsf' * 'vsf-api' apps.
 ## ************************************************************************
+# shellcheck disable=SC1090
 # root directory (set before or relative to the current shell script)
 DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
@@ -10,18 +11,7 @@ set -e
 ## ========================================================================
 # Configuration variables.
 ## ========================================================================
-# VSF Server (contains Front/API servers, Elasticsearch & Redis services)
-HOST_VSF="x.x.x.x"
-# address of REST API of source Magento instance
-URL_MAGE="http://mage2.host.com"
-URL_MAGE_REST="${URL_MAGE}/rest"
-URL_MAGE_IMG="${URL_MAGE}/media/catalog/product/cache/"
-INDEX_NAME="vue_storefront_catalog"
-# Magento integration options
-MAGE_CONSUMER_KEY="..."
-MAGE_CONSUMER_SECRET="..."
-MAGE_ACCESS_TOKEN="..."
-MAGE_ACCESS_TOKEN_SECRET="..."
+. "${DIR_ROOT}/cfg.local.sh"
 
 ## ========================================================================
 # Configure apps.
@@ -97,7 +87,7 @@ cd ~/vue-storefront-api && yarn install && yarn build
 cd ~/vue-storefront-api
 rm -f ./var/catalog.json
 npm run dump
-npm run db rebuild -- --indexName=${INDEX_NAME}
+npm run db rebuild -- --indexName="${INDEX_NAME}"
 
 ## ========================================================================
 # Start services and apps.
