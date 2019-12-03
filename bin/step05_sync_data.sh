@@ -21,7 +21,7 @@ bash run.sh
 
 
 echo "========================================================================"
-echo "Rebuild indexes and get data from Elasticsearch."
+echo "Reconfigure VSF API."
 echo "========================================================================"
 cd ~/vue-storefront-api
 rm -f ./var/catalog.json

@@ -46,6 +46,13 @@ cat <<EOM | tee ~/vue-storefront-api/config/local.json
       "accessToken": "${MAGE_ACCESS_TOKEN}",
       "accessTokenSecret": "${MAGE_ACCESS_TOKEN_SECRET}"
     }
+  },
+  "imageable": {
+    "whitelist": {
+      "allowedHosts": [
+        ".*biobox.eco"
+      ]
+    }
   }
 }
 EOM

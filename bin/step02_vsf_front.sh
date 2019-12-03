@@ -47,7 +47,7 @@ cat <<EOM | tee ~/vue-storefront/config/local.json
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "http://${HOST_VSF}/img/",
+    "baseUrl": "http://${HOST_VSF}:8080/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
   }
 }
