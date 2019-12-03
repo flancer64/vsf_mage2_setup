@@ -32,7 +32,7 @@ cat <<EOM | tee ~/mage2vuestorefront/src/run.sh
 #!/usr/bin/env/bash
 #  Exit immediately if a command exits with a non-zero status.
 set -e
-ROOT=$(cd "$(dirname "$0")/" && pwd)}
+ROOT=$(cd "$(dirname "$0")/" && pwd)
 
 export TIME_TO_EXIT="2000"
 
@@ -47,11 +47,11 @@ export MAGENTO_URL="${URL_MAGE_REST}"
 export INDEX_NAME="${INDEX_NAME}"
 
 # Perform data replications
-node --harmony ${ROOT}/cli.js taxrule --removeNonExistent=true
-node --harmony ${ROOT}/cli.js attributes --removeNonExistent=true
-node --harmony ${ROOT}/cli.js categories --removeNonExistent=true
-node --harmony ${ROOT}/cli.js productcategories --removeNonExistent=true
-node --harmony ${ROOT}/cli.js products --removeNonExistent=true
+node --harmony \${ROOT}/cli.js taxrule --removeNonExistent=true
+node --harmony \${ROOT}/cli.js attributes --removeNonExistent=true
+node --harmony \${ROOT}/cli.js categories --removeNonExistent=true
+node --harmony \${ROOT}/cli.js productcategories --removeNonExistent=true
+node --harmony \${ROOT}/cli.js products --removeNonExistent=true
 
 EOM
 
