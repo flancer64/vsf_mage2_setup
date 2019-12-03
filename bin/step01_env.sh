@@ -10,9 +10,9 @@ DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
 set -e
 
-## ========================================================================
-# Update current packages and install new ones
-## ========================================================================
+echo "========================================================================"
+echo "Update current packages and install new ones."
+echo "========================================================================"
 #     nodejs & yarn
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -33,17 +33,9 @@ sudo npm install pm2@latest -g
 # Change file permissions on user's home (`.confiig` folder is created under root permissions`)
 sudo chown -R "${USER}" ~
 
-## ========================================================================
-# Clone VSF applications
-## ========================================================================
-cd ~
-git clone https://github.com/DivanteLtd/vue-storefront.git
-git clone https://github.com/DivanteLtd/vue-storefront-api.git
-git clone https://github.com/DivanteLtd/mage2vuestorefront.git
-
-## ========================================================================
-# Configure services and apps
-## ========================================================================
+echo "========================================================================"
+echo "Configure services and apps."
+echo "========================================================================"
 sudo cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml
 # see https://github.com/DivanteLtd/vue-storefront-api/blob/master/docker/elasticsearch/config/elasticsearch.yml
@@ -69,8 +61,14 @@ logfile /var/log/redis/redis-server.log
 databases 16
 EOM
 
-## ========================================================================
-# Start services
-## ========================================================================
+echo "========================================================================"
+echo "Setup autostart for services."
+echo "========================================================================"
+sudo systemctl enable elasticsearch
+sudo systemctl enable redis-server
+
+echo "========================================================================"
+echo "Start services."
+echo "========================================================================"
 sudo service elasticsearch start
 sudo service redis-server start
