@@ -32,7 +32,7 @@ cat <<EOM | tee ~/mage2vuestorefront/src/run.sh
 #!/usr/bin/env/bash
 #  Exit immediately if a command exits with a non-zero status.
 set -e
-ROOT=$(cd "$(dirname "$0")/" && pwd)
+ROOT=\$(cd "\$(dirname "\$0")/" && pwd)
 
 export TIME_TO_EXIT="2000"
 
