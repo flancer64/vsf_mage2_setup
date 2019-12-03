@@ -7,7 +7,7 @@ Set of scripts to automate binding of Vue Storefront PWA with Magento 2 backend.
 
 Host under `Linux Ubuntu 18.04 LTS 64-bit` is used in development.
 
-There are 3 steps for now:
+There are 5 steps for now:
 
 1. [Step 01](./bin/step01_env.sh): upgrade OS and install additional services (Elasticsearch, Redis, node, yarn, ...).
 1. [Step 02](./bin/step02_vsf_front.sh): install and configure [vue-storefront](https://github.com/DivanteLtd/vue-storefront) app. 
