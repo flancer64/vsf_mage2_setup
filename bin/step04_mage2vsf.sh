@@ -50,7 +50,7 @@ export INDEX_NAME="${INDEX_NAME}"
 node --harmony \${ROOT}/cli.js taxrule --removeNonExistent=true
 node --harmony \${ROOT}/cli.js attributes --removeNonExistent=true
 node --harmony \${ROOT}/cli.js categories --removeNonExistent=true
-node --harmony \${ROOT}/cli.js productcategories --removeNonExistent=true
+node --harmony \${ROOT}/cli.js productcategories
 node --harmony \${ROOT}/cli.js products --removeNonExistent=true
 
 EOM
