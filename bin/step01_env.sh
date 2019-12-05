@@ -30,8 +30,8 @@ sudo apt update
 sleep 2 # wait 2 second before upgrade to prevent en error
 sudo apt upgrade -y
 # https://unix.stackexchange.com/a/22876/240544
-sudo apt install -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew \
-  nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server
+export DEBIAN_FRONTEND="noninteractive"
+sudo apt install -q -y nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server
 sudo npm install pm2@latest -g
 
 # Change file permissions on user's home (`.confiig` folder is created under root permissions`)
@@ -42,21 +42,12 @@ echo "Configure services and apps."
 echo "========================================================================"
 sudo cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml
-## Default Elasticsearch configuration from elasticsearch-docker.
-## from https://github.com/elastic/elasticsearch-docker/blob/master/build/elasticsearch/elasticsearch.yml
-#
-cluster.name: "docker-cluster"
+cluster.name: vsf
+node.name: exo01
 network.host: 0.0.0.0
-
-# minimum_master_nodes need to be explicitly set when bound on a public IP
-# set to 1 to allow single node clusters
-# Details: https://github.com/elastic/elasticsearch/pull/17288
-discovery.zen.minimum_master_nodes: 1
-
-## Use single node discovery in order to disable production mode and avoid bootstrap checks
-## see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
-#
-discovery.type: single-node
+discovery.seed_hosts: []
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
 EOM
 
 sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
