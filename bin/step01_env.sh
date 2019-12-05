@@ -21,7 +21,9 @@ sudo add-apt-repository "deb https://dl.yarnpkg.com/debian/ stable main"
 curl -sL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 # use ElasticSearch v5.x
 # (see https://github.com/DivanteLtd/vue-storefront-api/blob/master/docker/elasticsearch/Dockerfile)
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
+#echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
+# use Elasticsearch 7.x
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
 
 # Upgrade current packages and install new:
 sudo apt update
