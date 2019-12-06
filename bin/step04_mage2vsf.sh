@@ -17,7 +17,7 @@ echo "========================================================================"
 echo "Clone 'mage2vuestorefront' application."
 echo "========================================================================"
 cd ~
-git clone https://github.com/DivanteLtd/mage2vuestorefront.git
+git clone -b "feature/es7" https://github.com/DivanteLtd/mage2vuestorefront.git
 
 echo "========================================================================"
 echo "Build 'mage2vuestorefront' application."
@@ -35,6 +35,7 @@ set -e
 ROOT=\$(cd "\$(dirname "\$0")/" && pwd)
 
 export TIME_TO_EXIT="2000"
+export ELASTICSEARCH_API_VERSION="7.1"
 
 # Setup connection to Magento
 export MAGENTO_CONSUMER_KEY="${MAGE_CONSUMER_KEY}"
