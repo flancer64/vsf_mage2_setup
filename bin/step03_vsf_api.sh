@@ -30,7 +30,8 @@ cat <<EOM | tee ~/vue-storefront-api/config/local.json
   },
   "elasticsearch": {
     "host": "localhost",
-    "port": 9200
+    "port": 9200,
+    "apiVersion": "7.1"
   },
   "redis": {
     "host": "localhost",

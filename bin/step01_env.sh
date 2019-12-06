@@ -42,12 +42,27 @@ echo "Configure services and apps."
 echo "========================================================================"
 sudo cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml
+# config for Elasticsearch v7.3.2
+# dedicated master-eligible node: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
 cluster.name: vsf
-node.name: exo01
-network.host: 0.0.0.0
+cluster.remote.connect: false
 discovery.seed_hosts: []
+discovery.type: single-node
+http.cors.allow-credentials: true
+http.cors.allow-headers: "X-Requested-With, Content-Type, Content-Length, X-User"
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-origin: "*"
+http.cors.enabled: true
+network.host: 0.0.0.0
+node.data: false
+node.ingest: false
+node.master: true
+node.ml: false
+node.name: exo01
+node.voting_only: false
 path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
+xpack.ml.enabled: true
 EOM
 
 sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
