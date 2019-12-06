@@ -65,3 +65,9 @@ cd ~/vue-storefront-api
 yarn install
 yarn build
 yarn start
+echo "Create empty structure for Elasticsearch 7.x."
+yarn db7 new
+
+echo "========================================================================"
+echo "Process is completed."
+echo "========================================================================"

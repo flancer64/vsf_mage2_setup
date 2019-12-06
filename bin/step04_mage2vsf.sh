@@ -58,3 +58,7 @@ EOM
 
 # set 'executable' permissions to the script.
 chmod ug+x ~/mage2vuestorefront/src/run.sh
+
+echo "========================================================================"
+echo "Process is completed."
+echo "========================================================================"

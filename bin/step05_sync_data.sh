@@ -27,3 +27,7 @@ cd ~/vue-storefront-api
 rm -f ./var/catalog.json
 npm run dump
 npm run db rebuild -- --indexName="${INDEX_NAME}"
+
+echo "========================================================================"
+echo "Process is completed."
+echo "========================================================================"

@@ -92,3 +92,7 @@ echo "Start services."
 echo "========================================================================"
 sudo service elasticsearch start
 sudo service redis-server start
+
+echo "========================================================================"
+echo "Process is completed."
+echo "========================================================================"

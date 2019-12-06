@@ -21,6 +21,7 @@ There are 5 steps for now:
 ```
 $ git clone https://github.com/flancer64/vsf_mage2_setup.git
 $ cd ./vsf_mage2_setup
+$ cat > cfg.local.sh                # or
 $ cp cfg.init.sh cfg.local.sh
 $ nano cfg.local.sh
 ...
