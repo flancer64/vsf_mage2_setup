@@ -54,10 +54,10 @@ http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
 http.cors.allow-origin: "*"
 http.cors.enabled: true
 network.host: 0.0.0.0
-node.data: false
-node.ingest: false
+node.data: true
+node.ingest: true
 node.master: true
-node.ml: false
+node.ml: true
 node.name: exo01
 node.voting_only: false
 path.data: /var/lib/elasticsearch
