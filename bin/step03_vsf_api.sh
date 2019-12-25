@@ -51,7 +51,7 @@ cat <<EOM | tee ~/vue-storefront-api/config/local.json
   "imageable": {
     "whitelist": {
       "allowedHosts": [
-        ".*biobox.eco"
+        "${HOST_MAGE}"
       ]
     }
   }
