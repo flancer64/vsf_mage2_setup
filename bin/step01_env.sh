@@ -27,7 +27,7 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee 
 
 # Upgrade current packages and install new:
 sudo apt update
-sleep 2 # wait 2 second before upgrade to prevent en error
+sleep 4 # wait 4 second before upgrade to prevent en error
 sudo apt upgrade -y
 # https://unix.stackexchange.com/a/22876/240544
 export DEBIAN_FRONTEND="noninteractive"
