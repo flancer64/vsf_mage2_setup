@@ -30,4 +30,10 @@ $ bash ./bin/step02_vsf_front.sh
 $ bash ./bin/step03_vsf_api.sh
 $ bash ./bin/step04_mage2vsf.sh
 $ bash ./bin/step05_sync_data.sh
+$ # or as one command
+$ bash ./bin/step01_env.sh && \
+    bash ./bin/step02_vsf_front.sh && \
+    bash ./bin/step03_vsf_api.sh && \
+    bash ./bin/step04_mage2vsf.sh && \
+    bash ./bin/step05_sync_data.sh
 ```

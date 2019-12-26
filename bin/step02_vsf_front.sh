@@ -49,6 +49,19 @@ cat <<EOM | tee ~/vue-storefront/config/local.json
     "useExactUrlsNoProxy": false,
     "baseUrl": "http://${HOST_VSF}:8080/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
+  },
+  "i18n": {
+    "defaultCountry": "RU",
+    "defaultLanguage": "RU",
+    "availableLocale": ["ru-RU"],
+    "defaultLocale": "ru-RU",
+    "currencyCode": "${MAGE_CURRENCY_CODE}",
+    "currencySign": "₽",
+    "currencySignPlacement": "preppend",
+    "dateFormat": "l LT",
+    "fullCountryName": "Russian Federation",
+    "fullLanguageName": "Russian",
+    "bundleAllStoreviewLanguages": true
   }
 }
 EOM
