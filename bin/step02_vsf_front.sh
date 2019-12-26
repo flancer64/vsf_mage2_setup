@@ -17,7 +17,7 @@ echo "========================================================================"
 echo "Clone 'vue-storefront' application."
 echo "========================================================================"
 cd ~
-git clone -b "release/v1.11.0" https://github.com/DivanteLtd/vue-storefront.git
+git clone -b "v1.11.0" https://github.com/DivanteLtd/vue-storefront.git
 
 echo "========================================================================"
 echo "Configure 'vue-storefront' application."
