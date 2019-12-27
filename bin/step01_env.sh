@@ -27,12 +27,12 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee 
 
 # Upgrade current packages and install new:
 sudo apt update
-sleep 4 # wait 4 second before upgrade to prevent en error
+sudo rm -f /var/lib/dpkg/lock-frontend  # to prevent error "Could not get lock /var/lib/dpkg/lock-frontend"
 sudo apt upgrade -y
 # https://unix.stackexchange.com/a/22876/240544
 export DEBIAN_FRONTEND="noninteractive"
 sudo apt install -q -y nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server
-sudo npm install pm2@latest -g
+sudo npm install pm2@^2.10.4 -g # should be a certain version
 
 # Change file permissions on user's home (`.confiig` folder is created under root permissions`)
 sudo chown -R "${USER}" ~
