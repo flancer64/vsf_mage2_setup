@@ -12,50 +12,71 @@ echo "========================================================================"
 echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
+# check external vars used in this script (see cfg.[work|live].sh)
+: "${ES_INDEX_NAME=:?}"
+: "${REDIS_DB:?}"
+: "${REDIS_HOST:?}"
+: "${REDIS_PORT:?}"
+: "${VSF_API_SERVER_IP:?}"
+: "${VSF_API_SERVER_PORT:?}"
+: "${VSF_API_WEB_HOST:?}"
+: "${VSF_API_WEB_PROTOCOL:?}"
+: "${VSF_FRONT_SERVER_IP:?}"
+: "${VSF_FRONT_SERVER_PORT:?}"
+: "${VSF_FRONT_WEB_HOST:?}"
+: "${VSF_FRONT_WEB_PROTOCOL:?}"
+# local context vars
+DIR_APPS="/home/${USER}"
+DIR_VSF="${DIR_APPS}/vue-storefront"
 
 echo "========================================================================"
 echo "Clone 'vue-storefront' application."
 echo "========================================================================"
-cd ~
-git clone -b "v1.11.0" https://github.com/DivanteLtd/vue-storefront.git
+cd "${DIR_APPS}" || exit 255
+git clone https://github.com/DivanteLtd/vue-storefront.git "${DIR_VSF}"
 
 echo "========================================================================"
 echo "Configure 'vue-storefront' application."
 echo "========================================================================"
+cd "${DIR_VSF}" || exit 255
 cat <<EOM | tee ~/vue-storefront/config/local.json
 {
   "server": {
-    "host": "0.0.0.0",
-    "port": 3000
+    "host": "${VSF_FRONT_SERVER_IP}",
+    "port": ${VSF_FRONT_SERVER_PORT},
+    "protocol": "http"
   },
   "redis": {
-    "host": "${HOST_VSF}",
-    "port": 6379,
-    "db": 0
-  },
-  "graphql": {
-    "host": "${HOST_VSF}",
-    "port": 8080
+    "host": "${REDIS_HOST}",
+    "port": ${REDIS_PORT},
+    "db": ${REDIS_DB}
   },
   "api": {
-    "url": "http://${HOST_VSF}:8080"
+    "url": "${VSF_API_WEB_PROTOCOL}://${VSF_API_WEB_HOST}"
   },
   "elasticsearch": {
+    "index": "${ES_INDEX_NAME}",
     "indices": [
-      "${INDEX_NAME}"
+      "${ES_INDEX_NAME}"
     ]
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "http://${HOST_VSF}:8080/img/",
+    "baseUrl": "${VSF_API_WEB_PROTOCOL}://${VSF_API_WEB_HOST}/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
+  },
+  "install": {
+    "is_local_backend": true
+  },
+  "tax": {
+    "defaultCountry": "RU"
   },
   "i18n": {
     "defaultCountry": "RU",
     "defaultLanguage": "RU",
     "availableLocale": ["ru-RU"],
     "defaultLocale": "ru-RU",
-    "currencyCode": "${MAGE_CURRENCY_CODE}",
+    "currencyCode": "RUB",
     "currencySign": "₽",
     "currencySignPlacement": "preppend",
     "dateFormat": "l LT",

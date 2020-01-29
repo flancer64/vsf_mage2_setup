@@ -17,7 +17,7 @@ echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
 # check external vars used in this script (see cfg.[work|live].sh)
 : "${REDIS_HOST:?}"
-: "${REDIS_HOST:?}"
+: "${REDIS_PORT:?}"
 : "${VSF_API_SERVER_IP:?}"
 : "${VSF_API_SERVER_PORT:?}"
 : "${VSF_API_WEB_HOST:?}"
@@ -134,8 +134,8 @@ cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf >/dev/null
 EOM
 
 echo "Enable apache modules."
-sudo a2enmod proxy
-#sudo a2enmod proxy_http
+sudo a2enmod proxy >/dev/null
+sudo a2enmod proxy_http >/dev/null
 
 echo "========================================================================"
 echo "Setup autostart for services."
