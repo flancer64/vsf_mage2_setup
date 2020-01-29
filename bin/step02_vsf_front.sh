@@ -39,7 +39,7 @@ echo "========================================================================"
 echo "Configure 'vue-storefront' application."
 echo "========================================================================"
 cd "${DIR_VSF}" || exit 255
-cat <<EOM | tee ~/vue-storefront/config/local.json
+cat <<EOM | tee "${DIR_VSF}/config/local.json"
 {
   "server": {
     "host": "${VSF_FRONT_SERVER_IP}",
@@ -90,7 +90,7 @@ EOM
 echo "========================================================================"
 echo "Build & start 'vue-storefront' application."
 echo "========================================================================"
-cd ~/vue-storefront
+cd "${DIR_VSF}"
 yarn install
 yarn build
 yarn start

@@ -12,46 +12,78 @@ echo "========================================================================"
 echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
+# check external vars used in this script (see cfg.[work|live].sh)
+: "${ES_API_VERSION:?}"
+: "${ES_HOST:?}"
+: "${ES_INDEX_NAME=:?}"
+: "${ES_PORT:?}"
+: "${MAGE_API_ACCESS_TOKEN:?}"
+: "${MAGE_API_ACCESS_TOKEN_SECRET:?}"
+: "${MAGE_API_CONSUMER_KEY:?}"
+: "${MAGE_API_CONSUMER_SECRET:?}"
+: "${MAGE_HOST:?}"
+: "${MAGE_URL_IMG:?}"
+: "${MAGE_URL_REST:?}"
+: "${REDIS_DB:?}"
+: "${REDIS_HOST:?}"
+: "${REDIS_PORT:?}"
+: "${VSF_API_SERVER_IP:?}"
+: "${VSF_API_SERVER_PORT:?}"
+: "${VSF_API_WEB_HOST:?}"
+: "${VSF_API_WEB_PROTOCOL:?}"
+# local context vars
+DIR_APPS="/home/${USER}"
+DIR_VSF_API="${DIR_APPS}/vue-storefront-api"
 
 echo "========================================================================"
 echo "Clone 'vue-storefront-api' application."
 echo "========================================================================"
-cd ~
-git clone -b "v1.11.0" https://github.com/DivanteLtd/vue-storefront-api.git
+cd "${DIR_APPS}" || exit 255
+git clone https://github.com/DivanteLtd/vue-storefront-api.git "${DIR_VSF_API}"
 
 echo "========================================================================"
 echo "Configure 'vue-storefront-api' application."
 echo "========================================================================"
-cat <<EOM | tee ~/vue-storefront-api/config/local.json
+cd "${DIR_VSF_API}" || exit 255
+cat <<EOM | tee "${DIR_VSF_API}/config/local.json"
 {
   "server": {
-    "host": "0.0.0.0",
-    "port": 8080
+    "host": "${VSF_API_SERVER_IP}",
+    "port": ${VSF_API_SERVER_PORT}
   },
   "elasticsearch": {
-    "host": "localhost",
-    "port": 9200,
-    "apiVersion": "7.1"
+    "host": "${ES_HOST}",
+    "port": ${ES_PORT},
+    "indices": [
+      "${ES_INDEX_NAME}"
+    ],
+    "apiVersion": "${ES_API_VERSION}"
   },
   "redis": {
-    "host": "localhost",
-    "port": 6379
+    "host": "${REDIS_HOST}",
+    "port": ${REDIS_PORT},
+    "db": ${REDIS_DB}
+  },
+  "authHashSecret": "__SECRET_CHANGE_ME__",
+  "objHashSecret": "__SECRET_CHANGE_ME__",
+  "tax": {
+    "defaultCountry": "RU"
   },
   "magento2": {
-    "imgUrl": "${URL_MAGE_IMG}",
-    "assetPath": "/../var/magento2-sample-data/pub/media",
+    "imgUrl": "${MAGE_URL_IMG}",
     "api": {
-      "url": "${URL_MAGE_REST}",
-      "consumerKey": "${MAGE_CONSUMER_KEY}",
-      "consumerSecret": "${MAGE_CONSUMER_SECRET}",
-      "accessToken": "${MAGE_ACCESS_TOKEN}",
-      "accessTokenSecret": "${MAGE_ACCESS_TOKEN_SECRET}"
+      "url": "${MAGE_URL_REST}",
+      "consumerKey": "${MAGE_API_CONSUMER_KEY}",
+      "consumerSecret": "${MAGE_API_CONSUMER_SECRET}",
+      "accessToken": "${MAGE_API_ACCESS_TOKEN}",
+      "accessTokenSecret": "${MAGE_API_ACCESS_TOKEN_SECRET}"
     }
   },
+  "magento1": {},
   "imageable": {
     "whitelist": {
       "allowedHosts": [
-        "${HOST_MAGE}"
+        "${MAGE_HOST}"
       ]
     }
   }
@@ -61,7 +93,7 @@ EOM
 echo "========================================================================"
 echo "Build & start 'vue-storefront-api' application."
 echo "========================================================================"
-cd ~/vue-storefront-api
+cd "${DIR_VSF_API}"
 yarn install
 yarn build
 yarn start
