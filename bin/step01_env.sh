@@ -60,7 +60,7 @@ echo "========================================================================"
 echo "Configure Elasticsearch."
 echo "========================================================================"
 sudo cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
-cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml
+cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml >/dev/null
 # config for Elasticsearch v7.3.2
 # dedicated master-eligible node: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
 cluster.name: vsf
@@ -88,7 +88,7 @@ echo "========================================================================"
 echo "Configure Redis."
 echo "========================================================================"
 sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-cat <<EOM | sudo tee /etc/redis/redis.conf
+cat <<EOM | sudo tee /etc/redis/redis.conf >/dev/null
 # this config is composed from './redis.conf.orig'
 bind ${REDIS_HOST}
 port ${REDIS_PORT}
@@ -107,9 +107,9 @@ echo "========================================================================"
 echo "Configure Apache."
 echo "========================================================================"
 echo "Add virtual hosts to local DNS."
-echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" | sudo tee -a /etc/hosts > /dev/null
+echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" | sudo tee -a /etc/hosts >/dev/null
 echo "Add virtual host config for frontend server"
-cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf > /dev/null
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf >/dev/null
 <VirtualHost *:80>
     ServerName ${VSF_FRONT_WEB_HOST}
     ProxyPreserveHost On
@@ -121,7 +121,7 @@ cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf > /dev/null
 </VirtualHost>
 EOM
 echo "Add virtual host config for API server"
-cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf > /dev/null
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf >/dev/null
 <VirtualHost *:80>
     ServerName ${VSF_API_WEB_HOST}
     ProxyPreserveHost On
@@ -132,6 +132,10 @@ cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf > /dev/null
     ErrorLog ${APACHE_LOG_DIR}/vsf.api_error.log
 </VirtualHost>
 EOM
+
+echo "Enable apache modules."
+sudo a2enmod proxy
+#sudo a2enmod proxy_http
 
 echo "========================================================================"
 echo "Setup autostart for services."
