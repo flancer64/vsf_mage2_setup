@@ -11,6 +11,11 @@ DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 set -e
 
 echo "========================================================================"
+echo "Read local configuration."
+echo "========================================================================"
+. "${DIR_ROOT}/cfg.local.sh"
+
+echo "========================================================================"
 echo "Update current packages and install new ones."
 echo "========================================================================"
 #     nodejs & yarn
@@ -38,14 +43,14 @@ sudo apt upgrade -y
 echo "Install new packages."
 # https://unix.stackexchange.com/a/22876/240544
 export DEBIAN_FRONTEND="noninteractive"
-sudo apt install -q -y nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server
+sudo apt install -q -y nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server apache2
 sudo npm install pm2@^2.10.4 -g # should be a certain version
 
 # Change file permissions on user's home (`.confiig` folder is created under root permissions`)
 sudo chown -R "${USER}" ~
 
 echo "========================================================================"
-echo "Configure services and apps."
+echo "Configure Elasticsearch."
 echo "========================================================================"
 sudo cp /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 cat <<EOM | sudo tee /etc/elasticsearch/elasticsearch.yml
@@ -72,6 +77,9 @@ path.logs: /var/log/elasticsearch
 xpack.ml.enabled: true
 EOM
 
+echo "========================================================================"
+echo "Configure Redis."
+echo "========================================================================"
 sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
 cat <<EOM | sudo tee /etc/redis/redis.conf
 # this config is composed from './redis.conf.orig'
@@ -86,6 +94,36 @@ pidfile /var/run/redis/redis-server.pid
 loglevel notice
 logfile /var/log/redis/redis-server.log
 databases 16
+EOM
+
+echo "========================================================================"
+echo "Configure Apache."
+echo "========================================================================"
+echo "Add virtual hosts to local DNS."
+sudo echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" >> /etc/hosts
+echo "Add virtual host config for frontend server"
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf
+<VirtualHost *:80>
+    ServerName ${VSF_FRONT_WEB_HOST}
+    ProxyPreserveHost On
+    ProxyPass / http://${VSF_FRONT_SERVER_IP}:${VSF_FRONT_SERVER_PORT}/
+    ProxyPassReverse / http://${VSF_FRONT_SERVER_IP}:${VSF_FRONT_SERVER_PORT}/
+    LogLevel info
+    CustomLog ${APACHE_LOG_DIR}/vsf.front_access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/vsf.front_error.log
+</VirtualHost>
+EOM
+echo "Add virtual host config for API server"
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf
+<VirtualHost *:80>
+    ServerName ${VSF_API_WEB_HOST}
+    ProxyPreserveHost On
+    ProxyPass / http://${VSF_API_SERVER_IP}:${VSF_API_SERVER_PORT}/
+    ProxyPassReverse / http://${VSF_API_SERVER_IP}:${VSF_API_SERVER_PORT}/
+    LogLevel info
+    CustomLog ${APACHE_LOG_DIR}/vsf.api_access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/vsf.api_error.log
+</VirtualHost>
 EOM
 
 echo "========================================================================"
