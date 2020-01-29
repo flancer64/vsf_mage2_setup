@@ -5,6 +5,7 @@
 #     Upgrade OS, install required services and run it, clone application
 #     sources.
 ## ************************************************************************
+# shellcheck disable=SC1090
 # root directory (set before or relative to the current shell script)
 DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
@@ -14,6 +15,15 @@ echo "========================================================================"
 echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
+# check external vars used in this script (see cfg.[work|live].sh)
+: "${REDIS_HOST:?}"
+: "${REDIS_HOST:?}"
+: "${VSF_API_SERVER_IP:?}"
+: "${VSF_API_SERVER_PORT:?}"
+: "${VSF_API_WEB_HOST:?}"
+: "${VSF_FRONT_SERVER_IP:?}"
+: "${VSF_FRONT_SERVER_PORT:?}"
+: "${VSF_FRONT_WEB_HOST:?}"
 
 echo "========================================================================"
 echo "Update current packages and install new ones."
@@ -24,9 +34,6 @@ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 sudo add-apt-repository "deb https://dl.yarnpkg.com/debian/ stable main"
 #     Elasticsearch
 curl -sL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-# use ElasticSearch v5.x
-# (see https://github.com/DivanteLtd/vue-storefront-api/blob/master/docker/elasticsearch/Dockerfile)
-#echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
 # use Elasticsearch 7.x
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
 
@@ -83,8 +90,8 @@ echo "========================================================================"
 sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
 cat <<EOM | sudo tee /etc/redis/redis.conf
 # this config is composed from './redis.conf.orig'
-bind 0.0.0.0
-port 6379
+bind ${REDIS_HOST}
+port ${REDIS_PORT}
 tcp-backlog 511
 timeout 0
 tcp-keepalive 300
@@ -100,7 +107,7 @@ echo "========================================================================"
 echo "Configure Apache."
 echo "========================================================================"
 echo "Add virtual hosts to local DNS."
-sudo echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" >> /etc/hosts
+sudo echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" >>/etc/hosts
 echo "Add virtual host config for frontend server"
 cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf
 <VirtualHost *:80>
@@ -137,6 +144,7 @@ echo "Start services."
 echo "========================================================================"
 sudo service elasticsearch start
 sudo service redis-server start
+sudo service apache2 restart
 
 echo "========================================================================"
 echo "Process is completed."
