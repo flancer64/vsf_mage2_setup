@@ -12,19 +12,33 @@ echo "========================================================================"
 echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
+# check external vars used in this script (see cfg.[work|live].sh)
+: "${DEPLOY_MODE:?}"
+: "${DEPLOY_MODE_DEV:?}"
+: "${ES_INDEX_NAME:?}"
+: "${ES_URL:?}"
+: "${MAGE_API_ACCESS_TOKEN:?}"
+: "${MAGE_API_ACCESS_TOKEN_SECRET:?}"
+: "${MAGE_API_CONSUMER_KEY:?}"
+: "${MAGE_API_CONSUMER_SECRET:?}"
+: "${MAGE_URL_REST:?}"
+# local context vars
+DIR_APPS="/home/${USER}"
+DIR_API="${DIR_APPS}/vue-storefront-api"
+DIR_M2V="${DIR_APPS}/mage2vuestorefront"
 
 echo "========================================================================"
-echo "Rebuild indexes and get data from Elasticsearch."
+echo "Get data from Magento."
 echo "========================================================================"
-cd ~/mage2vuestorefront/src
-bash run.sh
+cd "${DIR_M2V}"
+bash replicate.sh
 
 
 echo "========================================================================"
 echo "Reconfigure VSF API."
 echo "========================================================================"
-cd ~/vue-storefront-api
-rm -f ./var/catalog.json
+cd "${DIR_API}"
+rm -f ./var/catalog*
 npm run dump
 npm run db rebuild -- --indexName="${INDEX_NAME}"
 

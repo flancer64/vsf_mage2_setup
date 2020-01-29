@@ -12,23 +12,34 @@ echo "========================================================================"
 echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
+# check external vars used in this script (see cfg.[work|live].sh)
+: "${ES_INDEX_NAME:?}"
+: "${ES_URL:?}"
+: "${MAGE_API_ACCESS_TOKEN:?}"
+: "${MAGE_API_ACCESS_TOKEN_SECRET:?}"
+: "${MAGE_API_CONSUMER_KEY:?}"
+: "${MAGE_API_CONSUMER_SECRET:?}"
+: "${MAGE_URL_REST:?}"
+# local context vars
+DIR_APPS="/home/${USER}"
+DIR_M2V="${DIR_APPS}/mage2vuestorefront"
 
 echo "========================================================================"
 echo "Clone 'mage2vuestorefront' application."
 echo "========================================================================"
-cd ~
-git clone -b "feature/es7" https://github.com/DivanteLtd/mage2vuestorefront.git
+git clone https://github.com/DivanteLtd/mage2vuestorefront.git "${DIR_M2V}"
+cd "${DIR_M2V}" || exit 255
+git checkout "feature/es7"
 
 echo "========================================================================"
 echo "Build 'mage2vuestorefront' application."
 echo "========================================================================"
-cd ~/mage2vuestorefront
 yarn install
 
 echo "========================================================================"
 echo "Create launch script to run all sync tasks."
 echo "========================================================================"
-cat <<EOM | tee ~/mage2vuestorefront/src/run.sh
+cat <<EOM | tee "${DIR_M2V}/replicate.sh" >/dev/null
 #!/usr/bin/env/bash
 #  Exit immediately if a command exits with a non-zero status.
 set -e
@@ -57,7 +68,7 @@ node --harmony \${ROOT}/cli.js products --removeNonExistent=true
 EOM
 
 # set 'executable' permissions to the script.
-chmod ug+x ~/mage2vuestorefront/src/run.sh
+chmod ug+x "${DIR_M2V}/replicate.sh"
 
 echo "========================================================================"
 echo "Process is completed."
