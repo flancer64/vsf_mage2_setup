@@ -107,9 +107,9 @@ echo "========================================================================"
 echo "Configure Apache."
 echo "========================================================================"
 echo "Add virtual hosts to local DNS."
-sudo echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" >>/etc/hosts
+echo "127.0.0.1 front.vsf.demo.com api.vsf.demo.com" | sudo tee -a /etc/hosts > /dev/null
 echo "Add virtual host config for frontend server"
-cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf > /dev/null
 <VirtualHost *:80>
     ServerName ${VSF_FRONT_WEB_HOST}
     ProxyPreserveHost On
@@ -121,7 +121,7 @@ cat <<EOM | sudo tee /etc/apache2/sites-enabled/vsf.front.conf
 </VirtualHost>
 EOM
 echo "Add virtual host config for API server"
-cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf
+cat <<EOM | sudo tee /etc/apache2/sites-enabled/api.front.conf > /dev/null
 <VirtualHost *:80>
     ServerName ${VSF_API_WEB_HOST}
     ProxyPreserveHost On
@@ -138,12 +138,13 @@ echo "Setup autostart for services."
 echo "========================================================================"
 sudo systemctl enable elasticsearch
 sudo systemctl enable redis-server
+sudo systemctl enable apache2
 
 echo "========================================================================"
 echo "Start services."
 echo "========================================================================"
-sudo service elasticsearch start
-sudo service redis-server start
+sudo service elasticsearch restart
+sudo service redis-server restart
 sudo service apache2 restart
 
 echo "========================================================================"
