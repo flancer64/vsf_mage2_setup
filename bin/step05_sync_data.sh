@@ -13,8 +13,6 @@ echo "Read local configuration."
 echo "========================================================================"
 . "${DIR_ROOT}/cfg.local.sh"
 # check external vars used in this script (see cfg.[work|live].sh)
-: "${DEPLOY_MODE:?}"
-: "${DEPLOY_MODE_DEV:?}"
 : "${ES_INDEX_NAME:?}"
 : "${ES_URL:?}"
 : "${MAGE_API_ACCESS_TOKEN:?}"

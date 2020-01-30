@@ -40,31 +40,34 @@ echo "========================================================================"
 echo "Create launch script to run all sync tasks."
 echo "========================================================================"
 cat <<EOM | tee "${DIR_M2V}/replicate.sh" >/dev/null
-#!/usr/bin/env/bash
+#!/bin/bash
 #  Exit immediately if a command exits with a non-zero status.
 set -e
 ROOT=\$(cd "\$(dirname "\$0")/" && pwd)
+M2V_CLI="\${ROOT}/src/cli.js"
 
 export TIME_TO_EXIT="2000"
-export ELASTICSEARCH_API_VERSION="7.1"
+
+# Setup connection to Elasticsearch
+export ELASTICSEARCH_API_VERSION="7.5"
+export DATABASE_URL="${ES_URL}"
 
 # Setup connection to Magento
-export MAGENTO_CONSUMER_KEY="${MAGE_CONSUMER_KEY}"
-export MAGENTO_CONSUMER_SECRET="${MAGE_CONSUMER_SECRET}"
-export MAGENTO_ACCESS_TOKEN="${MAGE_ACCESS_TOKEN}"
-export MAGENTO_ACCESS_TOKEN_SECRET="${MAGE_ACCESS_TOKEN_SECRET}"
+export MAGENTO_CONSUMER_KEY="${MAGE_API_CONSUMER_KEY}"
+export MAGENTO_CONSUMER_SECRET="${MAGE_API_CONSUMER_SECRET}"
+export MAGENTO_ACCESS_TOKEN="${MAGE_API_ACCESS_TOKEN}"
+export MAGENTO_ACCESS_TOKEN_SECRET="${MAGE_API_ACCESS_TOKEN_SECRET}"
+export MAGENTO_URL="${MAGE_URL_REST}"
 
 # Setup default store
-export MAGENTO_URL="${URL_MAGE_REST}"
-export INDEX_NAME="${INDEX_NAME}"
+export INDEX_NAME="${ES_INDEX_NAME}"
 
 # Perform data replications
-node --harmony \${ROOT}/cli.js taxrule --removeNonExistent=true
-node --harmony \${ROOT}/cli.js attributes --removeNonExistent=true
-node --harmony \${ROOT}/cli.js categories --removeNonExistent=true
-node --harmony \${ROOT}/cli.js productcategories
-node --harmony \${ROOT}/cli.js products --removeNonExistent=true
-
+node --harmony "\${M2V_CLI}" taxrule --removeNonExistent=true
+node --harmony "\${M2V_CLI}" attributes --removeNonExistent=true
+node --harmony "\${M2V_CLI}" categories --removeNonExistent=true
+node --harmony "\${M2V_CLI}" productcategories
+node --harmony "\${M2V_CLI}" products --removeNonExistent=true
 EOM
 
 # set 'executable' permissions to the script.
