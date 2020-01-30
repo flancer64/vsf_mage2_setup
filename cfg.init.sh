@@ -3,17 +3,37 @@
 #   Local configuration template.
 #   Copy this file to `./cfg.local.sh`.
 # =========================================================================
-export HOST_VSF="255.255.255.255"   # ip address or domain name for VSF host (VSF Front/API, Elasticsearch & Redis)
-export HOST_MAGE="mage2.host.com"   # ip address or domain name for Magento 2 host
-# address of REST API of source Magento instance
-export URL_MAGE_REST="http://${HOST_MAGE}/rest"
-export URL_MAGE_IMG="http://${HOST_MAGE}/media/catalog/product"
-export INDEX_NAME="vue_storefront_catalog"
-# Magento integration options
-# see: "How to integrate Magento2 with your local instance?"
-# at: https://medium.com/the-vue-storefront-journal/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2
-export MAGE_CONSUMER_KEY="..."
-export MAGE_CONSUMER_SECRET="..."
-export MAGE_ACCESS_TOKEN="..."
-export MAGE_ACCESS_TOKEN_SECRET="..."
-export MAGE_CURRENCY_CODE="..."
+
+# VSF frontend
+export VSF_FRONT_SERVER_IP="127.0.0.1"
+export VSF_FRONT_SERVER_PORT="3100"
+export VSF_FRONT_WEB_HOST="front.vsf.demo.com"
+export VSF_FRONT_WEB_PROTOCOL="http"
+
+# VSF API
+export VSF_API_SERVER_IP="127.0.0.1"
+export VSF_API_SERVER_PORT="3130"
+export VSF_API_WEB_HOST="api.vsf.demo.com"
+export VSF_API_WEB_PROTOCOL="http"
+
+# Redis
+export REDIS_HOST="127.0.0.1"
+export REDIS_PORT="6379"
+export REDIS_DB="0"
+
+# Elasticsearch
+export ES_HOST="127.0.0.1"
+export ES_PORT="9200"
+export ES_API_VERSION="7.2"
+export ES_URL="http://${ES_HOST}:${ES_PORT}"
+export ES_INDEX_NAME="vue_demo"
+
+# Magento
+export MAGE_HOST="magento.demo.com"
+export MAGE_URL_REST="http://${MAGE_HOST}/rest"
+export MAGE_URL_IMG="http://${MAGE_HOST}/media/catalog/product"
+# Magento API access
+export MAGE_API_CONSUMER_KEY="87ufsjl20l5lrub7j1k041a7aoxafmvm"
+export MAGE_API_CONSUMER_SECRET="7fi88hdlp3ibtfr2bwf0395xhtuvu6zu"
+export MAGE_API_ACCESS_TOKEN="xxsa70xlqo3zmksy858h663p8hr19dbv"
+export MAGE_API_ACCESS_TOKEN_SECRET="hmhfyxs5dkd70cna5p49g6oiju8xctk0"
