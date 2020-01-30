@@ -37,8 +37,8 @@ echo "Reconfigure VSF API."
 echo "========================================================================"
 cd "${DIR_API}"
 rm -f ./var/catalog*
-npm run dump
-npm run db rebuild -- --indexName="${INDEX_NAME}"
+npm run dump7 -- --input-index="${ES_INDEX_NAME}"
+npm run db7 rebuild -- --indexName="${ES_INDEX_NAME}"
 
 echo "========================================================================"
 echo "Process is completed."
