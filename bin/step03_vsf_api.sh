@@ -45,7 +45,7 @@ echo "========================================================================"
 echo "Configure 'vue-storefront-api' application."
 echo "========================================================================"
 cd "${DIR_VSF_API}" || exit 255
-cat <<EOM | tee "${DIR_VSF_API}/config/local.json"
+cat <<EOM | tee "${DIR_VSF_API}/config/local.json" >/dev/null
 {
   "server": {
     "host": "${VSF_API_SERVER_IP}",
