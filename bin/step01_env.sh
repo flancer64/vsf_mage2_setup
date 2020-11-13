@@ -52,6 +52,7 @@ echo "Install new packages."
 export DEBIAN_FRONTEND="noninteractive"
 sudo apt install -q -y nodejs yarn openjdk-11-jre-headless elasticsearch=7.3.2 redis-server apache2
 sudo npm install pm2@^2.10.4 -g # should be a certain version
+sudo npm install -g lerna
 
 # Change file permissions on user's home (`.confiig` folder is created under root permissions`)
 sudo chown -R "${USER}" ~

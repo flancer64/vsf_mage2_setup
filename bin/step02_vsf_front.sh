@@ -69,23 +69,33 @@ cat <<EOM | tee "${DIR_VSF}/config/local.json" >/dev/null
     "is_local_backend": true
   },
   "tax": {
-    "defaultCountry": "RU"
+    "defaultCountry": "LV"
   },
   "i18n": {
-    "defaultCountry": "RU",
-    "defaultLanguage": "RU",
-    "availableLocale": ["ru-RU"],
-    "defaultLocale": "ru-RU",
-    "currencyCode": "RUB",
-    "currencySign": "₽",
+    "defaultCountry": "LV",
+    "defaultLanguage": "EN",
+    "availableLocale": ["en-US"],
+    "defaultLocale": "en-US",
+    "currencyCode": "EUR",
+    "currencySign": "€",
     "currencySignPlacement": "preppend",
     "dateFormat": "l LT",
-    "fullCountryName": "Russian Federation",
-    "fullLanguageName": "Russian",
+    "fullCountryName": "Latvian Republic",
+    "fullLanguageName": "Latvia",
     "bundleAllStoreviewLanguages": true
   }
 }
 EOM
+
+echo "========================================================================"
+echo "Install 'capybara' theme."
+echo "========================================================================"
+cd "${DIR_VSF}"
+git submodule add -b master https://github.com/DivanteLtd/vsf-capybara.git src/themes/capybara
+git submodule update --init --remote
+node src/themes/capybara/scripts/generate-local-config.js
+sed -i 's/themes\/default/themes\/capybara/' tsconfig.json
+lerna bootstrap
 
 echo "========================================================================"
 echo "Build & start 'vue-storefront' application."
