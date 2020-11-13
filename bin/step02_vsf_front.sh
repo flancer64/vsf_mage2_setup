@@ -44,7 +44,8 @@ cat <<EOM | tee "${DIR_VSF}/config/local.json" >/dev/null
   "server": {
     "host": "${VSF_FRONT_SERVER_IP}",
     "port": ${VSF_FRONT_SERVER_PORT},
-    "protocol": "http"
+    "protocol": "http",
+    "api": "api-search-query"
   },
   "redis": {
     "host": "${REDIS_HOST}",
@@ -83,6 +84,33 @@ cat <<EOM | tee "${DIR_VSF}/config/local.json" >/dev/null
     "fullCountryName": "Latvian Republic",
     "fullLanguageName": "Latvia",
     "bundleAllStoreviewLanguages": true
+  },
+  "theme": "@vue-storefront/theme-capybara",
+  "products": {
+    "thumbnails": {
+      "width": 324,
+      "height": 489
+    }
+  },
+  "cart": {
+    "thumbnails": {
+      "width": 210,
+      "height": 300
+    }
+  },
+  "entities": {
+    "category": {
+      "categoriesDynamicPrefetch": false
+    },
+    "attribute": {
+      "loadByAttributeMetadata": true
+    }
+  },
+  "quicklink": {
+    "enabled": false
+  },
+  "urlModule": {
+    "enableMapFallbackUrl": true
   }
 }
 EOM
