@@ -6,7 +6,7 @@
 # root directory (set before or relative to the current shell script)
 DIR_ROOT=${DIR_ROOT:=$(cd "$(dirname "$0")/../" && pwd)}
 #  Exit immediately if a command exits with a non-zero status.
-set -e
+set -e -x
 
 echo "========================================================================"
 echo "Read local configuration."
@@ -101,9 +101,11 @@ echo "Build & start 'vue-storefront' application."
 echo "========================================================================"
 cd "${DIR_VSF}"
 yarn install
-yarn build
 # theme activity
 node src/themes/capybara/scripts/generate-local-config.js
+# front activity
+yarn build
+# theme activity
 lerna bootstrap
 # front activity
 yarn start
