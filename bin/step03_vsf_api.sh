@@ -98,7 +98,7 @@ yarn install
 yarn build
 yarn start
 echo "Create empty structure for Elasticsearch 7.x."
-yarn db7 new
+yarn db new
 
 echo "========================================================================"
 echo "Process is completed."

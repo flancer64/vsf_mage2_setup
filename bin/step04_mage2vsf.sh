@@ -29,7 +29,7 @@ echo "Clone 'mage2vuestorefront' application."
 echo "========================================================================"
 git clone https://github.com/DivanteLtd/mage2vuestorefront.git "${DIR_M2V}"
 cd "${DIR_M2V}" || exit 255
-git checkout "feature/es7"
+#git checkout "feature/es7"
 
 echo "========================================================================"
 echo "Build 'mage2vuestorefront' application."
