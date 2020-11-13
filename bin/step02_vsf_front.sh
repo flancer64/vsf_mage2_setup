@@ -93,9 +93,8 @@ echo "========================================================================"
 cd "${DIR_VSF}"
 git submodule add -b master https://github.com/DivanteLtd/vsf-capybara.git src/themes/capybara
 git submodule update --init --remote
-node src/themes/capybara/scripts/generate-local-config.js
 sed -i 's/themes\/default/themes\/capybara/' tsconfig.json
-lerna bootstrap
+
 
 echo "========================================================================"
 echo "Build & start 'vue-storefront' application."
@@ -103,6 +102,10 @@ echo "========================================================================"
 cd "${DIR_VSF}"
 yarn install
 yarn build
+# theme activity
+node src/themes/capybara/scripts/generate-local-config.js
+lerna bootstrap
+# front activity
 yarn start
 
 echo "========================================================================"
